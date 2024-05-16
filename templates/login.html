@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+		/>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+		/>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>My admin</title>
+	</head>
+	<body>
+		<section class="bg-slate-100">
+			<div
+				class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+			>
+				<a
+					href="#"
+					class="text-black flex items-center mb-6 text-2xl font-semibold"
+				>
+					<img
+						class="w-8 h-8 mr-2"
+						src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+						alt="logo"
+					/>
+					E-journal
+				</a>
+				<div
+					class="w-full bg-slate-300 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"
+				>
+					<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+						<form class="space-y-4 md:space-y-6" action="" method="post">
+                            {% csrf_token %}
+							<div>
+								<label
+									for="email"
+									class="block mb-2 text-sm text-gray-900 font-bold"
+									>E-mail</label
+								>
+								<input
+									type="email"
+									name="username"
+									id="email"
+									class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 "
+									placeholder="example@example.com"
+									required
+                                    autofocus
+								/>
+							</div>
+							<div>
+								<label
+									for="password"
+									class="block mb-2 text-sm text-gray-900 font-bold"
+									>Password</label
+								>
+								<input
+									type="password"
+									name="password"
+									id="password"
+									placeholder="••••••••"
+									class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+									required=""
+								/>
+							</div>
+							<button
+								type="submit"
+								class="w-full text-white bg-gray-900 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+							>
+								Sign in
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-2.5 mt-1">
+    <h1 class="text-2xl">Upcoming lesson for class: {{ object.name }}</h1>
+    <div class="w-[100%] mt-5">
+        <div class="flex justify-end">
+            <a href="{% url 'create_lesson' %}?from_class={{ object.id }}"
+               class="p-2 w-[150px] text-center rounded border border-gray-900 hover:bg-gray-900 transition hover:text-white">
+                Add lesson
+            </a>
+        </div>
+        <table class="w-[100%]">
+            <thead>
+            <tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+                <th class="text-center py-4 ps-2">#</th>
+                <th class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">Name</th>
+                <th class="text-center py-4 pe-2">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for lesson in lessons_list %}
+            <tr>
+                <th class="text-center py-4 font-bold">{{ forloop.counter }}</th>
+                <td class="text-center py-4 font-bold border-2 border-gray-900 border-t-0 border-b-0">
+                    {{ lesson.name }}
+                </td>
+                <td class="text-center py-4 font-bold">{{ lesson.date|date:"Y/m/d" }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="flex gap-2 items-center justify-center mt-10">
+            <a href=""
+               class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition">
+                <i class="bi bi-caret-left-fill"></i>
+            </a>
+            <a href=""
+               class="bg-gray-900 text-white py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition">1</a>
+            <a href=""
+               class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition">2</a>
+            <a href=""
+               class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition">3</a>
+            <a href=""
+               class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition">
+                <i class="bi bi-caret-right-fill"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

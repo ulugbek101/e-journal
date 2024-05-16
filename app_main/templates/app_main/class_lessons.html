@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-2.5 mt-1">
+    <h1 class="text-2xl">Lessons for <b>{{ class_object }}</b> for past 7 days</h1>
+    <br>
+    <table class="w-[100%]">
+            <thead>
+            <tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+                <th class="text-center py-4 ps-2">#</th>
+                <th class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">Name</th>
+                <th class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">Teacher</th>
+                <th class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">Date</th>
+                <th class="text-center py-4 ps-2">Manage homework</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+            <tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+                <th class="text-center py-2 ps-2">{{ forloop.counter }}</th>
+                <td class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0">
+                    <a href="{% url 'lesson_detail' id=object.id %}" class="hover:underline">
+                        {{ object.name }}
+                    </a>
+                </td>
+                <td class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0">
+                    {{ object.subject_teacher.full_name }}
+                </td>
+                <td class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0">
+                    {{ object.date|date:"Y/m/d" }}
+                </td>
+                <td class="flex justify-center gap-2 text-center py-2 border-2 border-gray-900 border-t-0 border-b-0 border-s-0">
+                    {% if not object.homework %}
+                        <a href="{% url 'create_homework' id=object.id %}" class="w-[180px] p-2 text-center rounded border border-black hover:bg-green-600 hover:border-green-600 transition hover:text-white">
+                            Add homework
+                        </a>
+                    {% else %}
+                        <a href="{% url 'update_homework' id=object.homework.id %}" class="p-2 text-center rounded border border-black hover:bg-yellow-600 hover:border-yellow-600 transition hover:text-white">
+                            Edit homework
+                        </a>
+                        <a href="{% url 'delete_homework' lid=object.id id=object.homework.id %}" class="py-2 px-4 text-center rounded border border-black hover:bg-red-600 hover:border-red-600 transition hover:text-white">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+		    {% include 'components/_pagination.html' with page_range=page_range %}
+	    {% endif %}
+</div>
+{% endblock content %}

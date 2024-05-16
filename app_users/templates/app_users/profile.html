@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block content %}
+<div class="p-2.5">
+	<h1 class="text-2xl">My profile</h1>
+</div>
+<div class="p-2 flex flex-row justify-between gap-5">
+	<div>
+		<div class="mt-1 p-1 border border-slate-500 w-[185px]">
+			<img
+				src="https://res.cloudinary.com/dhtrn05k4/image/upload/v1712866789/my-admin-media/profile-pictures/user-default.png"
+				alt="{{ user.full_name }}"
+			/>
+		</div>
+		<div class="flex flex-col items-start gap-2 mt-5">
+			<h1 class="text-2xl">First name: {{ user.first_name }}</h1>
+			<h1 class="text-2xl">Last name: {{ user.last_name }}</h1>
+			<h1 class="text-2xl">Email: {{ user.email }}</h1>
+		</div>
+	</div>
+	<div class="w-1/2 flex flex-col gap-5">
+		
+		<form action="{% url 'update_profile' %}" method="post" class="flex flex-col gap-3 p-5 rounded-md bg-slate-200">
+			{% csrf_token %}
+			<h1 class="text-2xl">Update profile information</h1>
+			{% for field in form %}
+			<div class="w-full">
+				<label for="id_{{ field.name }}">{{ field.label }}</label>
+				{{ field }}
+			</div>
+			{% endfor %}
+			<button
+				type="submit"
+				class="active:scale-90 py-2 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition"
+			>
+				Update profile information
+			</button>
+		</form>
+
+		<form action="{% url 'update_password' %}" method="post" class="flex flex-col gap-3 p-5 rounded-md bg-slate-200">
+			{% csrf_token %}
+            <h1 class="text-2xl">Update password</h1>
+			<div class="w-full">
+                <label for="password1">New password</label>
+				<input
+					type="password"
+					id="password1"
+					name="password1"
+					class="w-full p-2 outline-0 border border-slate-500 rounded"
+				/>
+			</div>
+			<div class="w-full">
+                <label for="password2">New password confirmation</label>
+				<input
+					type="password"
+					id="password2"
+					name="password2"
+					class="w-full p-2 outline-0 border border-slate-500 rounded"
+				/>
+			</div>
+			<button
+				type="submit"
+				class="active:scale-90 py-2 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition"
+			>
+				Update password
+			</button>
+		</form>
+
+	</div>
+</div>
+{% endblock content %}

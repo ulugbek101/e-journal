@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-2.5 mt-1">
+    <h1 class="text-2xl text-center">New lesson</h1>
+    <div class="w-[100%] mt-5 flex justify-center w-full">
+        <form action="" method="post" enctype="multipart/form-data" class="w-[500px]">
+            {% csrf_token %}
+
+                <div class="flex flex-col justify-start gap-2">
+                    <label for="id_name">Lesson name:</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="flex flex-col justify-start gap-2">
+                    <label for="date">Lesson date:</label>
+                    <input value="{{ today }}" min="{{ today }}" type="date" name="date" id="date">
+                </div>
+
+            <button class="mt-5 p-2 w-full text-center rounded border border-gray-900 hover:bg-gray-900 transition hover:text-white" type="submit">{{ btn_text }}</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

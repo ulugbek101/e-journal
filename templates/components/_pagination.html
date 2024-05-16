@@ -1,0 +1,31 @@
+<div class="flex gap-2 items-center justify-center mt-10">
+    {% if page_obj.has_previous %}
+        <a class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition" href="?page={{ page_obj.previous_page_number }}">
+            <i class="bi bi-caret-left-fill"></i>
+        </a>
+    {% else %}
+        <button class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition" disabled>
+            <i class="bi bi-caret-left-fill"></i>
+        </button>
+    {% endif %}
+    {% for page in page_range %}
+        {% if page == page_obj.number %}
+            <button class="bg-gray-900 text-white py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition" id="current_page" disabled>
+                {{ page }}
+            </button>
+        {% else %}
+            <a class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition page" href="?page={{ page }}">
+                {{ page }}
+            </a>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <a class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition" href="?page={{ page_obj.next_page_number }}">
+            <i class="bi bi-caret-right-fill"></i>
+        </a>
+    {% else %}
+        <button class="py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition" disabled>
+            <i class="bi bi-caret-right-fill"></i>
+        </button>
+    {% endif %}
+</div>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-2.5 mt-1">
+    <h1 class="text-2xl">My class: {{ class_object.name }}</h1>
+    <div class="w-[100%] mt-5">
+        <br>
+        <table class="w-[100%]">
+            <thead>
+            <tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+                <th class="text-center py-4 ps-2">#</th>
+                <th class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">Name</th>
+                <th class="text-center py-4 ps-2">Contact parent</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pupil in class_students %}
+            <tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+                <th class="text-center py-4 ps-2">{{ forloop.counter }}</th>
+                <td class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0">
+                    {{ pupil.first_name }} {{ pupil.last_name }}
+                </td>
+                <td class="text-center py-4 ps-2">
+                    <a href="" class="rounded p-2 border border-yellow-600 text-yellow-600 transition hover:text-white hover:bg-yellow-600">
+                        <i class="bi bi-chat-dots"></i>
+                        Send message
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if page_obj.paginator.num_pages > 1 %}
+		    {% include 'components/_pagination.html' with page_range=page_range %}
+	    {% endif %}
+    </div>
+</div>
+{% endblock content %}

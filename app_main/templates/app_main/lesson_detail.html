@@ -1,0 +1,165 @@
+{% extends 'base.html' %} {% block content %}
+<div class="p-2.5 mt-1">
+	<h1 class="text-2xl">{{ object.name }}</h1>
+	<br />
+	<table class="w-[100%]">
+		<thead>
+			<tr class="border-2 border-s-0 border-e-0 border-t-0 border-gray-900">
+				<th class="text-center py-4 ps-2">#</th>
+				<th
+					class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0"
+				>
+					Student
+				</th>
+				<th
+					class="text-center py-4 border-2 border-gray-900 border-t-0 border-b-0"
+				>
+					Absence
+				</th>
+				<th class="text-center py-4 ps-2">Grade</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for student in students %}
+			<tr>
+				<th class="text-center py-2 ps-2">{{ forloop.counter }}</th>
+				<td
+					class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0"
+				>
+					{{ student.full_name }}
+				</td>
+				<td
+					class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0"
+				>
+					{% if student.is_absent == True %}
+					<i class="bi bi-x-circle-fill text-4xl text-red-600"></i>
+					{% elif student.is_absent == False %}
+					<i class="bi bi-check-circle-fill text-4xl text-green-600"></i>
+					{% else %}
+					<input
+						data-student="{{ student.id }}"
+						data-lesson="{{ object.id }}"
+						id="student-absence"
+						type="checkbox"
+						class="w-[36px] h-[36px] accent-gray-900"
+					/>
+					{% endif %}
+				</td>
+				<td class="text-center py-2 ps-2">
+					{% if student.grades %} 
+						{{ student.grades.0.grade }}
+					{% else %}
+					<select
+						name="student-grade"
+						id="student-grade"
+						data-student="{{ student.id }}"
+						data-lesson="{{ object.id }}"
+					>
+						<option value="0">--------------</option>
+						<option value="A">A (Excellent)</option>
+						<option value="B">B (Good)</option>
+						<option value="C">C (Exceptional)</option>
+						<option value="D">D (Bad)</option>
+						<option value="F">F (Very bad)</option>
+					</select>
+					{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<th></th>
+				<td
+					class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0"
+				></td>
+				<td
+					class="text-center py-2 border-2 border-gray-900 border-t-0 border-b-0"
+				>
+					<button
+						type="button"
+						id="submit-absence"
+						class="disabled:border-slate-500 disabled:bg-slate-500 disabled:text-white disabled:active:scale-100 active:scale-90 py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition"
+					>
+						Update attendance
+					</button>
+				</td>
+				<td class="text-center py-2 ps-2">
+					<button
+						id="submit-grades"
+						type="button"
+						class="disabled:border-slate-500 disabled:bg-slate-500 disabled:text-white disabled:active:scale-100 active:scale-90 py-1 px-3 rounded border border-gray-900 text-center hover:bg-gray-900 hover:text-white transition"
+					>
+						Update grades
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+	window.addEventListener("DOMContentLoaded", () => {
+		const buttonIsHidden =
+			document.querySelectorAll("#student-absence").length === 0;
+        const gradeChoiceFields = document.querySelectorAll("#student-grade");
+
+        document.getElementById("submit-grades").disabled = gradeChoiceFields.length === 0;
+		document.getElementById("submit-absence").disabled = buttonIsHidden;
+	});
+
+	// ============ Update attendance ============
+	const submitAttendance = document.getElementById("submit-absence");
+	submitAttendance.addEventListener("click", () => {
+		const studentsList = document.querySelectorAll("#student-absence");
+		const absentStudents = [];
+		const lessonId = studentsList[0].dataset.lesson;
+
+		studentsList.forEach(student => {
+			if (student.checked === true) {
+				absentStudents.push({
+					studentId: student.dataset.student,
+				});
+			}
+		});
+
+		fetch("/users/update-attendance/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				absentStudents,
+				lessonId,
+			}),
+		}).then(() => window.location.reload());
+	});
+	// ===========================================
+
+	// ============ Update grades ============
+	const submitGrades = document.getElementById("submit-grades");
+	submitGrades.addEventListener("click", () => {
+		const studentsList = document.querySelectorAll("#student-grade");
+		const gradesList = [];
+
+		studentsList.forEach(grade => {
+			if (grade.value != 0) {
+				const studentGrade = {
+					studentId: grade.dataset.student,
+					lessonId: grade.dataset.lesson,
+					grade: grade.value,
+				};
+				gradesList.push(studentGrade);
+			}
+		});
+		fetch("/users/update-grades/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ gradesList }),
+		}).then(() => window.location.reload());
+	});
+
+	// ===========================================
+</script>
+
+{% endblock content %}

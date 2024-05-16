@@ -1,0 +1,21 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My admin</title>
+</head>
+<body>
+{% include 'components/_nav.html' %}
+<main class="absolute w-[80%] h-full right-0 top-0 p-2">
+    {% block content %} {% endblock content %}
+</main>
+</body>
+</html>
